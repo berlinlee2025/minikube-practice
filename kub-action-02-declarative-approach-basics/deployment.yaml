@@ -1,0 +1,48 @@
+# To start creating a K8S deployment
+# kubectl apply -f=deployment.yaml
+
+# docs: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment # kind of K8S object e.g. service, job
+metadata:
+  # all possible attributes e.g.
+  # name, namespace, labels, annotations, generateName, ownerReferences, finalizers, clusterName, creationTimestamp, deletionGracePeriodSeconds, deletionTimestamp, generation, resourceVersion, selfLink, uid
+  name: kub-second-app-deployment
+  namespace: default
+  labels:
+    app: kub-second-app
+  annotations:
+    description: "kub-second-app deployment"
+  ownerReferences:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: second-deployment
+      uid: "12345"
+  finalizers:
+    - "subresources.kubernetes.io/delete"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kub-second-app
+      tier: backend
+  # docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/
+  # template = pod 
+  # kubectl create deployment kub-first-app --image=berlinleephoenix/kub-first-app:2
+  template:
+    # kind: Pod
+    metadata: 
+      labels:
+        app: kub-second-app
+        tier: backend
+      annotations:
+        description: "This is a Pod for kub-second-app"
+    spec: 
+      containers:
+        - name: second-node
+        # equivalent to --image= in kubectl create deployment kub-first-app --image=berlinleephoenix/kub-first-app:2
+          image: berlinleephoenix/kub-first-app:2
+        # - name: kub-first-app
+        #   image: berlinleephoenix/kub-first-app:1
+        # - name: kub-second-app
+        #   image: berlinleephoenix/kub-second-app:2
