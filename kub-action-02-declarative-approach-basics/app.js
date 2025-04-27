@@ -10,6 +10,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/error', (req, res) => {
+  res.send(`
+    <h1>Error...</h1>
+  `);
+  
   process.exit(1);
 });
 

@@ -1,14 +1,15 @@
+# docs: https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#service-v1-core
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: kub-second-app
 spec:
   selector: 
-    app: second-app
+    app: kub-second-app
   ports:
     - protocol: 'TCP'
-      port: 80
-      targetPort: 8080
+      port: 80 # outside world
+      targetPort: 8080 # inside container
     # - protocol: 'TCP'
     #   port: 443
     #   targetPort: 443
